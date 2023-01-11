@@ -1,0 +1,66 @@
+/**
+ * Returns the number rounded to the nearest interval.
+ * Example:
+ *
+ *   roundToNearest(1000.5, 1); // 1000
+ *   roundToNearest(1000.5, 0.5);  // 1000.5
+ *
+ * @param {number} value    The number to round
+ * @param {number} interval The numeric interval to round to
+ * @return {number}
+ */
+export const roundToNearest = (value: number, interval: number) => {
+  return Math.floor(value / interval) * interval;
+};
+
+/**
+ * Groups price levels by their price
+ * Example:
+ *
+ *  groupByPrice([ [1000, 100], [1000, 200], [993, 20] ]) // [ [ 1000, 300 ], [ 993, 20 ] ]
+ *
+ * @param levels
+ */
+export const groupByPrice = (levels: number[][]): number[][] => {
+  let groupMap = new Map();
+
+  levels.forEach((level, idx) => {
+    let item: number = level[0];
+    let acc: number = parseFloat(level[1].toString());
+    if (typeof groupMap.get(item) === 'undefined') {
+      groupMap.set(item, acc);
+    } else {
+
+      groupMap.set(item, groupMap.get(item) + acc)
+    }
+  })
+
+  return Array
+    .from(groupMap.keys())
+    .map((item: number) => {
+      return [item, groupMap.get(item)]
+    });
+};
+
+/**
+ * Group price levels by given ticket size. Uses groupByPrice() and roundToNearest()
+ * Example:
+ *
+ * groupByTicketSize([ [1000.5, 100], [1000, 200], [993, 20] ], 1) // [[1000, 300], [993, 20]]
+ *
+ * @param levels
+ * @param ticketSize
+ */
+export const groupByTicketSize = (levels: number[][], ticketSize: number): number[][] => {
+  return groupByPrice(levels.map(level => [roundToNearest(level[0], ticketSize), level[1]]));
+};
+
+export const formatNumber = (arg: number): string => {
+  return new Intl.NumberFormat('en-US').format(arg);
+};
+
+export const formatPrice = (arg: number): string => {
+  return arg.toLocaleString("en", { useGrouping: true, minimumFractionDigits: 2 })
+};
+
+export const money = (value: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
