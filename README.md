@@ -21,6 +21,6 @@ npm run dev
 
 ## 🧑🏻‍💻 Deployed version
 
-You can find the deployed version on [Here](https://replit.com/@ArthurBugan/binance-otter-1501)
+You can find the deployed version on [Here](https://binance-otter-1501.vercel.app/en/trade/BTC_BUSD)
 
 [⬆ Go to the top](#binance-otter-1501)<br>
